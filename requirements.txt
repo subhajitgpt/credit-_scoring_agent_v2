@@ -6,3 +6,4 @@ joblib
 langchain-core
 langchain-ollama
 langchain-openai
+langchain-community

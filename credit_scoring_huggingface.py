@@ -1,13 +1,8 @@
-# Public wrapper for UI import
-def get_llm() -> BaseChatModel:
+# --- Ensure get_llm is importable at the top level ---
+def get_llm() -> "BaseChatModel":
     """Public wrapper for _get_llm, for use in UI imports."""
     return _get_llm()
 
-# Place get_llm() after all imports and class/function definitions
-
-# ...existing code...
-
-# Place get_llm() after BaseChatModel is imported
 """
 Multi-Agent Credit Scoring System (Hugging Face Version)
 =======================================================

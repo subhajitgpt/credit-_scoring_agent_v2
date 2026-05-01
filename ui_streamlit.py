@@ -10,6 +10,7 @@ try:
 except Exception:  # pragma: no cover
     load_dotenv = None
 
+
 from credit_scoring import (
     ApplicantProfile,
     get_llm,
@@ -19,6 +20,8 @@ from credit_scoring import (
     run_ml_scoring_agent,
     run_orchestrator,
 )
+
+
 
 
 def _load_env() -> None:
@@ -47,6 +50,8 @@ def _resolve_ml_model_path() -> str:
     return str(p) if p.exists() else ""
 
 
+import streamlit as st
+@st.cache_resource(show_spinner=False)
 def _bootstrap_demo_ml_model(*, rows: int = 3000) -> Path:
     """Create a small demo ML model matching the Streamlit form inputs."""
 
@@ -55,8 +60,15 @@ def _bootstrap_demo_ml_model(*, rows: int = 3000) -> Path:
     model_path.parent.mkdir(parents=True, exist_ok=True)
     data_path.parent.mkdir(parents=True, exist_ok=True)
 
-    # Generate data
+    # Heavy imports inside function
     import generate_applicant_training_data as gen
+    import csv
+    import joblib  # type: ignore
+    from sklearn.feature_extraction import DictVectorizer  # type: ignore
+    from sklearn.linear_model import LogisticRegression  # type: ignore
+    from sklearn.model_selection import train_test_split  # type: ignore
+    from sklearn.pipeline import Pipeline  # type: ignore
+    import train_applicant_credit_model as trainer
 
     rng = __import__("random").Random(42)
     fieldnames = [
@@ -74,22 +86,12 @@ def _bootstrap_demo_ml_model(*, rows: int = 3000) -> Path:
         "loan_to_income",
         "defaulted",
     ]
-    import csv
 
     with data_path.open("w", newline="", encoding="utf-8") as f:
         writer = csv.DictWriter(f, fieldnames=fieldnames)
         writer.writeheader()
         for _ in range(rows):
             writer.writerow(gen.sample_row(rng))
-
-    # Train model
-    import joblib  # type: ignore
-    from sklearn.feature_extraction import DictVectorizer  # type: ignore
-    from sklearn.linear_model import LogisticRegression  # type: ignore
-    from sklearn.model_selection import train_test_split  # type: ignore
-    from sklearn.pipeline import Pipeline  # type: ignore
-
-    import train_applicant_credit_model as trainer
 
     X, y = trainer.read_training_csv(data_path)
     X_train, _, y_train, _ = train_test_split(X, y, test_size=0.2, random_state=42, stratify=y)

@@ -1,3 +1,5 @@
+import os
+os.environ["STREAMLIT_SERVER_PORT"] = "8505"
 import streamlit as st
 from credit_scoring_huggingface import (
     ApplicantProfile,
