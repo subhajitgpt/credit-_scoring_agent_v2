@@ -1,4 +1,6 @@
 
+# Place get_llm() after all imports and class/function definitions
+
 # ...existing code...
 
 # Place get_llm() after BaseChatModel is imported
