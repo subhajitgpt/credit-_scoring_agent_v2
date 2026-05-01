@@ -1,3 +1,7 @@
+# Public wrapper for UI import
+def get_llm() -> BaseChatModel:
+    """Public wrapper for _get_llm, for use in UI imports."""
+    return _get_llm()
 
 # Place get_llm() after all imports and class/function definitions
 
