@@ -1,3 +1,6 @@
+def get_llm() -> BaseChatModel:
+    """Public wrapper for _get_llm, for use in UI imports."""
+    return _get_llm()
 """
 Multi-Agent Credit Scoring System (Hugging Face Version)
 =======================================================
