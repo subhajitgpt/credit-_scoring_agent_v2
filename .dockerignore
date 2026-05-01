@@ -1,0 +1,16 @@
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.db
+*.sqlite3
+*.egg-info/
+.env
+.idea/
+.vscode/
+.git/
+.gitignore
+.DS_Store
+*.bak
+*.swp
+*.tmp
